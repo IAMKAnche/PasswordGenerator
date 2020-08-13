@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  pass-gen:
+    container_name: pass-gen
+    image: simple_django:latest
+    network_mode: bridge
+    build: ./docker_django
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/src
+    ports:
+      - '8000:8000'
