@@ -6,25 +6,47 @@ def home(request):
 	return render(request, 'app/index.html')
 
 def password(request):
-	chars = list(string.ascii_lowercase)
-	req = {}
-	if request.GET.get('ucase'):
-		req['ucase'] = True
-		chars.extend(list(string.ascii_uppercase))
-
-	if request.GET.get('schar'):
-		req['schar'] = True
-		chars.extend(list(string.punctuation))
-
-	if request.GET.get('num'):
-		req['num'] = True
-		chars.extend(list(string.digits))
-
-	length = int(request.GET.get('length', 12))
-	req['length'] = length
-
+	req = {
+		'ucase_len' : request.GET.get('ucase_len'),
+		'schar_len' : request.GET.get('schar_len'),
+		'num_len'   : request.GET.get('num_len'),
+		'pass_len'  : request.GET.get('pass_len'),
+	}
+	char_len = {
+		'pass_len'  : 0,
+		'ucase_len' : 0,
+		'num_len'   : 0,
+		'schar_len' : 0,
+	}
 	generated_password = ''
-	for x in range(length):
-		generated_password += random.choice(chars)
+	chars = list(string.printable.strip())
+	while char_len['pass_len'] < int(req['pass_len']):
+		r_chars = random.choice(chars)
+		# lowecase
+		if (r_chars.islower()):
+			char_len['pass_len']+=1
+			generated_password += r_chars
+			continue
+		# uppercase
+		if (r_chars.isupper() and ( int(req['ucase_len']) == -1
+		or char_len['ucase_len'] < int(req['ucase_len'])) ):
+			char_len['pass_len']+=1
+			char_len['ucase_len']+=1
+			generated_password += r_chars
+			continue
+		# num
+		if (r_chars.isnumeric() and ( int(req['num_len']) == -1
+		or char_len['num_len'] < int(req['num_len'])) ):
+			char_len['pass_len']+=1
+			char_len['num_len']+=1
+			generated_password += r_chars
+			continue
+		# symbols
+		if (r_chars.isalnum() == False and (int(req['schar_len']) == -1
+		or char_len['schar_len'] < int(req['schar_len'])) ):
+			char_len['pass_len']+=1
+			char_len['schar_len']+=1
+			generated_password += r_chars
+			continue
 
 	return render(request, 'app/index.html', {'req':req, 'password':generated_password})

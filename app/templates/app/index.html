@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 <title>Password Generator</title>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary">
 	<a class="navbar-brand" href="{% url 'home' %}">Password Generator</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
@@ -17,34 +17,73 @@
 	<h2 class="text-center">Create Randomized password!</h2>
 	<div class="container" style="width: 80%; margin: auto;">
 		<form action="{% url 'password' %}">
-			<div class="form-group">
-				<label for="length">Password Length :</label>
-				<select id="length" name="length" class="form-control">
-					<option value="4">4</option>
-					<option value="8">8</option>
-					<option value="10">10</option>
-					<option value="12" selected>12</option>
-					<option value="14">14</option>
-					<option value="16">16</option>
-				</select>
+			<div class="form-group row">
+				<label class="col-3 col-form-label">Password Length</label>
+				<div class="col-9">
+					<select id="pass_len" name="pass_len" class="form-control">
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12" selected>12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15">15</option>
+						<option value="16">16</option>
+					</select>
+				</div>
 			</div>
-			<div class="form-group">
-				<input type="checkbox" id="ucase" name="ucase">
-				<label id="ucase" for="ucase">Uppercase</label>
+			<div class="form-group row">
+				<label class="col-3 col-form-label">Uppercase Length</label>
+				<div class="col-9">
+					<select id="ucase_len" name="ucase_len" class="form-control">
+						<option value="0">0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="-1" selected>Max</option>
+					</select>
+				</div>
 			</div>
-			<div class="form-group">
-				<input type="checkbox" id="num" name="num">
-				<label for="num">Numbers</label>
+			<div class="form-group row">
+				<label class="col-3 col-form-label">Number Length</label>
+				<div class="col-9">
+					<select id="num_len" name="num_len" class="form-control">
+						<option value="0">0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="-1" selected>Max</option>
+					</select>
+				</div>
 			</div>
-			<div class="form-group">
-				<input type="checkbox" id="schar" name="schar">
-				<label for="schar">Special Characters</label>
+			<div class="form-group row">
+				<label class="col-3 col-form-label">Symbol Length</label>
+				<div class="col-9">
+					<select id="schar_len" name="schar_len" class="form-control">
+						<option value="0">0</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="-1" selected>Max</option>
+					</select>
+				</div>
 			</div>
-			<input id="btn_gen_pass" type="submit" value="Generate" class="btn btn-primary">
+			<input id="btn_gen_pass" type="submit" value="Generate" class="btn btn-block btn-primary btn-lg">
 		</form>
 		{% if password %}
-		<h4>Generated Password</h4>
-		<div class="alert alert-success" role="alert">
+		<h4 class="text-center">Generated Password</h4>
+		<div class="alert alert-info" role="alert">
 			{{ password }}
 		</div>
 		{% endif %}
@@ -62,9 +101,9 @@
 
 <script>
 	window.addEventListener('DOMContentLoaded', (event) => {
-		{% if req.length %}document.getElementById('length').value = {{req.length}}{% endif %}
-		{% if req.ucase %}document.getElementById('ucase').setAttribute('checked', 'checked'){% endif %}
-		{% if req.num %}document.getElementById('num').setAttribute('checked', 'checked'){% endif %}
-		{% if req.schar %}document.getElementById('schar').setAttribute('checked', 'checked'){% endif %}
+		{% if req.pass_len %}document.getElementById('pass_len').value = {{req.pass_len}}{% endif %}
+		{% if req.ucase_len %}document.getElementById('ucase_len').value = {{req.ucase_len}}{% endif %}
+		{% if req.num_len %}document.getElementById('num_len').value = {{req.num_len}}{% endif %}
+		{% if req.schar_len %}document.getElementById('schar_len').value = {{req.schar_len}}{% endif %}
 	});
 </script>
